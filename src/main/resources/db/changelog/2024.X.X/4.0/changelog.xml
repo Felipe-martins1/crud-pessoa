@@ -1,0 +1,43 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <property name="uuid_type" value="uuid" dbms="postgresql"/>
+
+    <property name="uuid_function" value="uuid_generate_v4()" dbms="postgresql"/>
+
+    <changeSet id="20242204183000" author="Felipe">
+        <createTable tableName="pessoa">
+            <column name="id" type="uuid" defaultValueComputed="${uuid_function}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nome" type="varchar(100)"/>
+            <column name="cpf" type="varchar(11)"/>
+            <column name="data_nascimento" type="DATE"/>
+        </createTable>
+
+        <addPrimaryKey tableName="pessoa" columnNames="id" constraintName="pessoa_PK"/>
+
+
+        <createSequence sequenceName="contato_id_seq"/>
+        <createTable tableName="contato">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="contato_id_seq">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nome" type="varchar(100)"/>
+            <column name="email" type="varchar(100)"/>
+            <column name="telefone" type="VARCHAR(11)"/>
+            <column name="pessoa_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey tableName="contato" columnNames="id" constraintName="contato_PK"/>
+
+        <addForeignKeyConstraint baseTableName="contato" baseColumnNames="pessoa_id"
+                                 constraintName="contato_pessoa_FK"
+                                 referencedTableName="pessoa" referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

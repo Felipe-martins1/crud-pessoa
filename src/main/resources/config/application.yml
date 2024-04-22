@@ -1,0 +1,14 @@
+spring:
+  liquibase:
+    change-log: classpath:db/changelog/changelog.xml
+    default-schema: public
+  application:
+    name: CrudPessoa
+  datasource:
+    url: jdbc:postgresql://localhost:5432/crud-pessoa
+    driver-class-name: org.postgresql.Driver
+    password: admin
+    username: postgres
+server:
+  port: 8080
+debug: true
