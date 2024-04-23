@@ -41,6 +41,10 @@ public class Pessoa {
         this.dataNascimento = dataNascimento;
     }
 
+    public Pessoa(UUID id) {
+        this.id = id;
+    }
+
     public UUID getId() {
         return id;
     }
