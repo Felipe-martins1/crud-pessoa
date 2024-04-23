@@ -1,5 +1,6 @@
 package com.crud.pessoa.domain.entity;
 
+import com.crud.pessoa.config.CrudPessoaBusinessException;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -69,6 +70,9 @@ public class Pessoa {
     }
 
     public void setDataNascimento(LocalDate dataNascimento) {
+        if(dataNascimento.isAfter(LocalDate.now())) {
+            throw new CrudPessoaBusinessException("Data de nascimento não pode ser maior que a data atual");
+        }
         this.dataNascimento = dataNascimento;
     }
 
